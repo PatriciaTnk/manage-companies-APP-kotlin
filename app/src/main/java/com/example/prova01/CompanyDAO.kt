@@ -2,8 +2,6 @@ package com.example.prova01
 
 import Company
 
-import android.content.Intent
-
 class CompanyDAO {
     companion object {
         var companies = mutableListOf<Company>()
@@ -12,6 +10,7 @@ class CompanyDAO {
             companies.add(company)
         }
 
+        @JvmName("getCompaniesList")
         fun getCompanies(): MutableList<Company> {
             return companies
         }
