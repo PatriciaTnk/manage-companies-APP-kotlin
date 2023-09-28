@@ -6,6 +6,6 @@ class Supermarket(name: String, cnpj: String, cash: Float, a_c: Boolean) : Compa
     }
 
     override fun toString(): String {
-        return "Supermarket(name='$name', cnpj='$cnpj', cash=$cash, qty_sits=$a_c)"
+        return "Supermarket(name='$name', cnpj='$cnpj', cash=$cash, Ar condicionado=$a_c)"
     }
 }

@@ -5,8 +5,9 @@ import Company
 import Posto
 import Supermarket
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
@@ -15,6 +16,9 @@ import android.widget.ListView
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +40,25 @@ class MainActivity : AppCompatActivity() {
 
     var lv_empresas : ListView? = null
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val register = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.let {
+                    if (it.hasExtra("lista")) {
+                        val lista: Company? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            it.getParcelableExtra("lista", Company::class.java)
+                        } else {
+                            it.getParcelableExtra("lista")
+                        }
+                        Log.i("TESTE","Veio de T2: "+lista)
+                    }
+                }
+            }
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -110,9 +132,11 @@ class MainActivity : AppCompatActivity() {
             lv_empresas?.adapter = adapt
 
             bt_manage.setOnClickListener {
-                val intent = Intent(this, Manager::class.java)
-                intent.putExtra("lista", CompanyDAO.getCompanies() as Serializable)
-                startActivity(intent)
+
+                Intent(this, Manager::class.java).let {
+                    it.putExtra("lista", CompanyDAO.getCompanies() as Serializable)
+                    register.launch(it)
+                }
             }
 
             fun toaster(msg: String){
@@ -130,5 +154,6 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
 }
 
