@@ -191,4 +191,12 @@
         app:layout_constraintStart_toEndOf="@+id/bt_delete"
         app:layout_constraintTop_toBottomOf="@+id/air_conditioning"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/bt_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Voltar"
+        tools:layout_editor_absoluteX="156dp"
+        tools:layout_editor_absoluteY="655dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
